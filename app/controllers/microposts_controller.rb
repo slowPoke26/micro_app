@@ -14,6 +14,7 @@ class MicropostsController < ApplicationController
   # GET /microposts/1
   # GET /microposts/1.json
   def show
+    @user = User.find(params[:user_id])
     @micropost = Micropost.find(params[:id])
 
     respond_to do |format|
@@ -25,6 +26,7 @@ class MicropostsController < ApplicationController
   # GET /microposts/new
   # GET /microposts/new.json
   def new
+    @user = User.find(params[:user_id])
     @micropost = Micropost.new
 
     respond_to do |format|
@@ -35,17 +37,19 @@ class MicropostsController < ApplicationController
 
   # GET /microposts/1/edit
   def edit
+    @user = User.find(params[:user_id])
     @micropost = Micropost.find(params[:id])
   end
 
   # POST /microposts
   # POST /microposts.json
   def create
+    @user = User.find(params[:user_id])
     @micropost = Micropost.new(params[:micropost])
 
     respond_to do |format|
       if @micropost.save
-        format.html { redirect_to @micropost, notice: 'Micropost was successfully created.' }
+        format.html { redirect_to user_micropost_path(@user, @micropost), notice: 'Micropost was successfully created.' }
         format.json { render json: @micropost, status: :created, location: @micropost }
       else
         format.html { render action: "new" }
@@ -57,11 +61,12 @@ class MicropostsController < ApplicationController
   # PUT /microposts/1
   # PUT /microposts/1.json
   def update
+    @user = User.find(params[:user_id])
     @micropost = Micropost.find(params[:id])
 
     respond_to do |format|
       if @micropost.update_attributes(params[:micropost])
-        format.html { redirect_to @micropost, notice: 'Micropost was successfully updated.' }
+        format.html { redirect_to user_micropost_path(@user, @micropost), notice: 'Micropost was successfully updated.' }
         format.json { head :no_content }
       else
         format.html { render action: "edit" }
@@ -73,11 +78,20 @@ class MicropostsController < ApplicationController
   # DELETE /microposts/1
   # DELETE /microposts/1.json
   def destroy
-    @micropost = Micropost.find(params[:id])
-    @micropost.destroy
+    # @micropost = Micropost.find(params[:id])
+    # Micropost.find(params[:id]).destroy
+    
+    # @user = User.find(params[:user_id])
+    # @micropost = Micropost.find(params[:id])
+    
+    User.find(params[:user_id]).microposts.find(params[:id]).destroy
+    
+    
+    
+    
 
     respond_to do |format|
-      format.html { redirect_to microposts_url }
+      format.html { redirect_to user_microposts_path }
       format.json { head :no_content }
     end
   end
