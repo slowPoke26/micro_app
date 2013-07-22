@@ -2,7 +2,8 @@ class MicropostsController < ApplicationController
   # GET /microposts
   # GET /microposts.json
   def index
-    @microposts = Micropost.all
+    @user = User.find(params[:user_id])
+    @microposts = @user.microposts
 
     respond_to do |format|
       format.html # index.html.erb
