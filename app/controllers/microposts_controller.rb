@@ -15,7 +15,7 @@ class MicropostsController < ApplicationController
   # GET /microposts/1.json
   def show
     @user = User.find(params[:user_id])
-    @micropost = Micropost.find(params[:id])
+    @micropost = @user.microposts.find(params[:id])
 
     respond_to do |format|
       format.html # show.html.erb
@@ -38,7 +38,7 @@ class MicropostsController < ApplicationController
   # GET /microposts/1/edit
   def edit
     @user = User.find(params[:user_id])
-    @micropost = Micropost.find(params[:id])
+    @micropost = @user.microposts.find(params[:id])
   end
 
   # POST /microposts
@@ -62,7 +62,7 @@ class MicropostsController < ApplicationController
   # PUT /microposts/1.json
   def update
     @user = User.find(params[:user_id])
-    @micropost = Micropost.find(params[:id])
+    @micropost = @user.microposts.find(params[:id])
 
     respond_to do |format|
       if @micropost.update_attributes(params[:micropost])
