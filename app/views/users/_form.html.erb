@@ -20,6 +20,7 @@
     <%= f.text_field :email %>
   </div>
   <div class="actions">
-    <%= f.submit %>
+    <%= f.submit nil, :class => 'btn btn-primary' %>
+    <%= link_to 'Cancel', users_path, :class => 'btn' %>
   </div>
 <% end %>
